@@ -2,10 +2,13 @@ package internal
 
 import "github.com/gbrlsnchs/jwt/v3"
 
-type EncodeRequest struct {
+// EncodeOptions specifies options for encoding
+type EncodeOptions struct {
 	Payload jwt.Payload
 }
 
-func Encode(req EncodeRequest) {
+// Encode jwt
+func Encode(opt EncodeOptions) (jwt string, err error) {
 
+	return
 }
