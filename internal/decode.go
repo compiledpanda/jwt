@@ -23,7 +23,6 @@ func Decode(token string, opt DecodeOptions) (string, error) {
 	if len(parts) != 3 {
 		return "", errors.New("Invalid token: requires 3 parts")
 	}
-	// Parse header/payload
 	header := make(map[string]interface{})
 	payload := make(map[string]interface{})
 	obj := make(map[string]interface{})

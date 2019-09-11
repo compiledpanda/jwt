@@ -1,7 +1,7 @@
 # jwt
 CLI to encode, decode, and validate JWTs
 
-Uses (github.com/gbrlsnchs/jwt/v3)[github.com/gbrlsnchs/jwt] and inspired by [jwt-cli](https://github.com/mike-engel/jwt-cli).
+Uses (github.com/gbrlsnchs/jwt/v3)[https://github.com/gbrlsnchs/jwt] and inspired by [jwt-cli](https://github.com/mike-engel/jwt-cli).
 
 ## Examples
 ```bash
@@ -31,12 +31,12 @@ Create and (optionally) sign a jwt.
 * `--nbf` - Not Before claim
 * `--iat` - Issued At claim
 * `--jti` - JWT ID claim
-* `-c, --claim` - custom claim key/value pairs (`a=b` string, `a='true'` raw json, `a=@file.txt` text from file, `a=@file.json` json from file)
+* `-c, --claim` - Claim key/value pairs (`a=b` string, `a=-` string from stdin, `a=@file.json` string from file). Will try to parse string as json, and use string as fallback
 * `-p, --payload` - The entire payload body in json format (`string`, `@file`, or `-` to read from stdin)
 #### Signature Options
-* `-a, --algorithm` - The algorithm to use for signing (Default `none`)
+* `-a, --algorithm` - (Required) The algorithm to use for signing
     Possible Values: `HS256`, `HS384`,`HS512`,`RS256`,`RS384`,`RS512`,`ES256`,`ES384`,`ES512`,`PS256`,`PS384`,`PS512`,`EdDSA`
-* `-s, --secret` - The secret (`string`, `@file`, or `-` to read from stdin)
+* `-s, --secret` - (Required) The secret (`string`, `@file`, or `-` to read from stdin)
 
 ### Decode
 Decode jwt (string or `-` to read from stdin) and Prettyprint.
