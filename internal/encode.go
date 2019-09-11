@@ -1,6 +1,11 @@
 package internal
 
 import (
+	"crypto/ecdsa"
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
+
 	"github.com/gbrlsnchs/jwt/v3"
 	"github.com/pkg/errors"
 )
@@ -23,7 +28,7 @@ type EncodeOptions struct {
 	Header    map[string]string
 	Payload   map[string]interface{}
 	Algorithm string
-	Secret    string
+	Secret    []byte
 }
 
 // Encode jwt
@@ -42,31 +47,67 @@ func Encode(opt EncodeOptions) (str string, err error) {
 	var alg jwt.Algorithm
 	switch opt.Algorithm {
 	case "HS256":
-		alg = jwt.NewHS256([]byte(opt.Secret))
+		alg = jwt.NewHS256(opt.Secret)
 	case "HS384":
-		alg = jwt.NewHS384([]byte(opt.Secret))
+		alg = jwt.NewHS384(opt.Secret)
 	case "HS512":
-		alg = jwt.NewHS512([]byte(opt.Secret))
+		alg = jwt.NewHS512(opt.Secret)
 	case "RS256":
-		// TODO
+		key, err := parseRSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewRS256(jwt.RSAPrivateKey(key))
 	case "RS384":
-		// TODO
+		key, err := parseRSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewRS384(jwt.RSAPrivateKey(key))
 	case "RS512":
-		// TODO
+		key, err := parseRSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewRS512(jwt.RSAPrivateKey(key))
 	case "ES256":
-		// TODO
+		key, err := parseECDSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewES256(jwt.ECDSAPrivateKey(key))
 	case "ES384":
-		// TODO
+		key, err := parseECDSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewES384(jwt.ECDSAPrivateKey(key))
 	case "ES512":
-		// TODO
+		key, err := parseECDSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewES512(jwt.ECDSAPrivateKey(key))
 	case "PS256":
-		// TODO
+		key, err := parseRSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewPS256(jwt.RSAPrivateKey(key))
 	case "PS384":
-		// TODO
+		key, err := parseRSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewPS384(jwt.RSAPrivateKey(key))
 	case "PS512":
-		// TODO
+		key, err := parseRSAPrivateKey(opt.Secret)
+		if err != nil {
+			return "", err
+		}
+		alg = jwt.NewPS512(jwt.RSAPrivateKey(key))
 	case "EdDSA":
-		// TODO
+		// TODO wait for 1.13 support
 	}
 
 	token, err := jwt.Sign(opt.Payload, alg, header...)
@@ -74,4 +115,63 @@ func Encode(opt EncodeOptions) (str string, err error) {
 		return "", errors.Wrap(err, "Could not sign token")
 	}
 	return string(token) + "\n", nil
+}
+
+func dePem(key []byte) []byte {
+	if len(key) > 0 && key[0] == '-' {
+		block, err := pem.Decode(key)
+		if err != nil {
+			// TODO error
+		}
+		if block == nil {
+			// TODO error
+		}
+		return block.Bytes
+	} else {
+		return key
+	}
+}
+
+func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {
+	bytes := dePem(key)
+
+	// Try PKCS8 -> RSA
+	k, err := x509.ParsePKCS8PrivateKey(bytes)
+	if err == nil {
+		pk, ok := k.(*rsa.PrivateKey)
+		if !ok {
+			return nil, errors.New("PKCS8 contained a non-RSA key")
+		}
+		return pk, nil
+	}
+
+	// Try PKCS1
+	pk, err := x509.ParsePKCS1PrivateKey(bytes)
+	if err == nil {
+		return pk, nil
+	}
+
+	return nil, errors.New("Unknown RSA format")
+}
+
+func parseECDSAPrivateKey(key []byte) (*ecdsa.PrivateKey, error) {
+	bytes := dePem(key)
+
+	// Try ECPrivateKey
+	pk, err := x509.ParseECPrivateKey(bytes)
+	if err == nil {
+		return pk, nil
+	}
+
+	// Try PKCS8 -> ECDSA
+	k, err := x509.ParsePKCS8PrivateKey(bytes)
+	if err == nil {
+		pk, ok := k.(*ecdsa.PrivateKey)
+		if !ok {
+			return nil, errors.New("PKCS8 contained a non-ECDSA key")
+		}
+		return pk, nil
+	}
+
+	return nil, errors.New("Unknown ECDSA format")
 }

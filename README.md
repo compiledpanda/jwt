@@ -16,7 +16,7 @@ VALID
 ## Docs
 
 ### Encode
-Create and (optionally) sign a jwt.
+Create and sign a jwt.
 
 `jwt encode [options]`
 

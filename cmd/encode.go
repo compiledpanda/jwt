@@ -118,11 +118,11 @@ var encode = &cobra.Command{
 
 		// Secret
 		if encodeSecret == "-" {
-			options.Secret = string(readStdIn())
+			options.Secret = readStdIn()
 		} else if strings.HasPrefix(encodeSecret, "@") {
-			options.Secret = string(readFile(encodeSecret[1:]))
+			options.Secret = readFile(encodeSecret[1:])
 		} else {
-			options.Secret = encodeSecret
+			options.Secret = []byte(encodeSecret)
 		}
 
 		// Encode and print
