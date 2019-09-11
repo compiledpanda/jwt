@@ -1,7 +1,7 @@
 # jwt
 CLI to encode, decode, and validate JWTs
 
-Uses (github.com/gbrlsnchs/jwt/v3)[https://github.com/gbrlsnchs/jwt] and inspired by [jwt-cli](https://github.com/mike-engel/jwt-cli).
+Uses [github.com/gbrlsnchs/jwt/v3](https://github.com/gbrlsnchs/jwt) and inspired by [jwt-cli](https://github.com/mike-engel/jwt-cli).
 
 ## Examples
 ```bash
