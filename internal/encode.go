@@ -119,17 +119,13 @@ func Encode(opt EncodeOptions) (str string, err error) {
 
 func dePem(key []byte) []byte {
 	if len(key) > 0 && key[0] == '-' {
-		block, err := pem.Decode(key)
-		if err != nil {
-			// TODO error
-		}
+		block, _ := pem.Decode(key)
 		if block == nil {
-			// TODO error
+			return []byte{}
 		}
 		return block.Bytes
-	} else {
-		return key
 	}
+	return key
 }
 
 func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {
