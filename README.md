@@ -5,10 +5,10 @@ Uses [github.com/gbrlsnchs/jwt/v3](https://github.com/gbrlsnchs/jwt) and inspire
 
 ## Examples
 ```bash
-$> jwt encode --iss Me -c custom=payload -a RS512 -s @/path/to/private/key
+$> jwt encode --iss Me -c custom=value -a RS512 -s @/path/to/private/key
 eyJh...sw5c
 $> cat ./path/to/jwt | jwt decode - -o "{{.payload.custom}}"
-payload
+value
 $> jwt validate eyJh...sw5c -a RS512 --iss Me -s @/path/to/public/key
 VALID
 ```
