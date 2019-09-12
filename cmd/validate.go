@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/compiledpanda/jwt/internal"
 	"github.com/spf13/cobra"
@@ -38,13 +39,13 @@ var validate = &cobra.Command{
 			options.Audience = validateAud
 		}
 		if validateExp != "" {
-			// TODO
+			options.Expiration = time.Unix(stringToSeconds(validateExp), 0)
 		}
 		if validateNbf != "" {
-			// TODO
+			options.NotBefore = time.Unix(stringToSeconds(validateNbf), 0)
 		}
 		if validateIat != "" {
-			// TODO
+			options.IssuedAt = time.Unix(stringToSeconds(validateIat), 0)
 		}
 		if validateJti != "" {
 			options.Jti = validateJti

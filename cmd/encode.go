@@ -67,16 +67,13 @@ var encode = &cobra.Command{
 				options.Payload["aud"] = encodeAud
 			}
 			if encodeExp != "" {
-				// TODO validate
-				options.Payload["exp"] = encodeExp
+				options.Payload["exp"] = stringToSeconds(encodeExp)
 			}
 			if encodeNbf != "" {
-				// TODO validate
-				options.Payload["nbf"] = encodeNbf
+				options.Payload["nbf"] = stringToSeconds(encodeNbf)
 			}
 			if encodeIat != "" {
-				// TODO validate
-				options.Payload["iat"] = encodeIat
+				options.Payload["iat"] = stringToSeconds(encodeIat)
 			}
 			if encodeJti != "" {
 				options.Payload["jti"] = encodeJti
