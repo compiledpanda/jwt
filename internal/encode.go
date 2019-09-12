@@ -4,7 +4,6 @@ import (
 	"crypto/ecdsa"
 	"crypto/rsa"
 	"crypto/x509"
-	"encoding/pem"
 
 	"github.com/gbrlsnchs/jwt/v3"
 	"github.com/pkg/errors"
@@ -115,17 +114,6 @@ func Encode(opt EncodeOptions) (str string, err error) {
 		return "", errors.Wrap(err, "Could not sign token")
 	}
 	return string(token) + "\n", nil
-}
-
-func dePem(key []byte) []byte {
-	if len(key) > 0 && key[0] == '-' {
-		block, _ := pem.Decode(key)
-		if block == nil {
-			return []byte{}
-		}
-		return block.Bytes
-	}
-	return key
 }
 
 func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {

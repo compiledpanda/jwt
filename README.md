@@ -34,8 +34,7 @@ Create and sign a jwt.
 * `-c, --claim` - Claim key/value pairs (`a=b` string, `a=-` string from stdin, `a=@file.json` string from file). Will try to parse string as json, and use string as fallback
 * `-p, --payload` - The entire payload body in json format (`string`, `@file`, or `-` to read from stdin)
 #### Signature Options
-* `-a, --algorithm` - (Required) The algorithm to use for signing
-    Possible Values: `HS256`, `HS384`,`HS512`,`RS256`,`RS384`,`RS512`,`ES256`,`ES384`,`ES512`,`PS256`,`PS384`,`PS512`,`EdDSA`
+* `-a, --algorithm` - (Required) The algorithm to use for signing. Possible Values are: `HS256`, `HS384`,`HS512`,`RS256`,`RS384`,`RS512`,`ES256`,`ES384`,`ES512`,`PS256`,`PS384`,`PS512`,`EdDSA`
 * `-s, --secret` - (Required) The secret (`string`, `@file`, or `-` to read from stdin)
 
 ### Decode
