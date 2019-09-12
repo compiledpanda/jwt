@@ -38,7 +38,7 @@ Create and sign a jwt.
 * `-s, --secret` - (Required) The secret or private key (`string`, `@file`, or `-` to read from stdin)
 
 ### Decode
-Decode jwt (string or `-` to read from stdin) and Prettyprint.
+Decode jwt (string, `@file`, or `-` to read from stdin) and Prettyprint.
 
 `jwt decode [options] <jwt>`
 
@@ -53,7 +53,7 @@ Decode jwt (string or `-` to read from stdin) and Prettyprint.
 `-o, --output` - Go template string to format the output
 
 ### Validate
-Validate the jwt (string or `-` to read from stdin). Will return an error code if JWT is invalid or fails a validation step
+Validate the jwt (string, `@file`, or `-` to read from stdin). Will return an error code if JWT is invalid or fails a validation step
 
 `jwt validate [options] <jwt>`
 

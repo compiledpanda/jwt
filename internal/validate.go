@@ -154,7 +154,7 @@ func parseRSAPublicKey(key []byte) (*rsa.PublicKey, error) {
 func parseECDSAPublicKey(key []byte) (*ecdsa.PublicKey, error) {
 	bytes := dePem(key)
 
-	// Try PKIX -> RSA
+	// Try PKIX -> ECDSA
 	k, err := x509.ParsePKIXPublicKey(bytes)
 	if err == nil {
 		pk, ok := k.(*ecdsa.PublicKey)

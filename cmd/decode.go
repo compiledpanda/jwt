@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/compiledpanda/jwt/internal"
 	"github.com/spf13/cobra"
@@ -15,7 +17,18 @@ var decode = &cobra.Command{
 	Short: "Decode a JWT",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		str, err := internal.Decode(args[0], decodeOptions)
+		// JWT
+		var jwt []byte
+		if args[0] == "-" {
+			jwt = readStdIn()
+		} else if strings.HasPrefix(args[0], "@") {
+			jwt = readFile(args[0][1:])
+		} else {
+			jwt = []byte(args[0])
+		}
+		jwt = bytes.TrimSpace(jwt)
+
+		str, err := internal.Decode(jwt, decodeOptions)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

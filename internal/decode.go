@@ -17,20 +17,20 @@ type DecodeOptions struct {
 }
 
 // Decode jwt
-func Decode(token string, opt DecodeOptions) (string, error) {
+func Decode(token []byte, opt DecodeOptions) (string, error) {
 	// Split and parse JWT
-	parts := strings.Split(token, ".")
+	parts := bytes.Split(token, []byte("."))
 	if len(parts) != 3 {
 		return "", errors.New("Invalid token: requires 3 parts")
 	}
 	header := make(map[string]interface{})
 	payload := make(map[string]interface{})
 	obj := make(map[string]interface{})
-	err := decodePart([]byte(parts[0]), &header)
+	err := decodePart(parts[0], &header)
 	if err != nil {
 		return "", errors.Wrap(err, "Invalid header")
 	}
-	err = decodePart([]byte(parts[1]), &payload)
+	err = decodePart(parts[1], &payload)
 	if err != nil {
 		return "", errors.Wrap(err, "Invalid payload")
 	}
