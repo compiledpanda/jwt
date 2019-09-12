@@ -148,7 +148,7 @@ func init() {
 	encode.Flags().StringVarP(&encodePayload, "payload", "p", "", "The entire payload body in json format (string, @file, or '-' to read from stdin)")
 	encode.Flags().StringVarP(&encodeAlgorithm, "algorithm", "a", "", "(Required) The algorithm to use for signing. Must be one of "+strings.Join(internal.Algorithms, ", "))
 	encode.MarkFlagRequired("algorithm")
-	encode.Flags().StringVarP(&encodeSecret, "secret", "s", "", "(Required) The secret (string, @file, or '-' to read from stdin)")
+	encode.Flags().StringVarP(&encodeSecret, "secret", "s", "", "(Required) The secret or private key (string, @file, or '-' to read from stdin)")
 	encode.MarkFlagRequired("secret")
 	root.AddCommand(encode)
 }

@@ -35,7 +35,7 @@ Create and sign a jwt.
 * `-p, --payload` - The entire payload body in json format (`string`, `@file`, or `-` to read from stdin)
 #### Signature Options
 * `-a, --algorithm` - (Required) The algorithm to use for signing. Possible Values are: `HS256`, `HS384`,`HS512`,`RS256`,`RS384`,`RS512`,`ES256`,`ES384`,`ES512`,`PS256`,`PS384`,`PS512`,`EdDSA`
-* `-s, --secret` - (Required) The secret (`string`, `@file`, or `-` to read from stdin)
+* `-s, --secret` - (Required) The secret or private key (`string`, `@file`, or `-` to read from stdin)
 
 ### Decode
 Decode jwt (string or `-` to read from stdin) and Prettyprint.
@@ -66,7 +66,19 @@ Validate the jwt (string or `-` to read from stdin). Will return an error code i
 * `--iat` - Fails if Issued At claim is after this value
 * `--jti` - Fails if JWT ID claim does not match
 * `-a, --algorithm` - The algorithm to validate against. Fails on mismatch
-* `-s, --secret` - The secret (`string`, `@file`, or `-` to read from stdin). Fails if signature is invalid
+* `-s, --secret` - The secret or public key (`string`, `@file`, or `-` to read from stdin). Fails if signature is invalid
 
-## Secrets
-Keys can be in PKCS1 or PKCS8 format, DER or PEM encoded.
+## Public/Private Key Formats
+The following formats are supported:
+
+* RSA Private Keys
+    * PKCS1 in PEM or DER format
+    * PKCS8 in PEM or DER format
+* RSA Public Keys
+    * PKCS1 in PEM or DER format
+    * x509 in PEM or DER format
+* ECDSA Private Keys
+    * EC in PEM or DER format
+    * PKCS8 in PEM or DER format
+* ECDSA Public Keys
+    * x509 in PEM or DER format

@@ -95,6 +95,6 @@ func init() {
 	validate.Flags().StringVar(&validateIat, "iat", "", "Fails if Issued At claim is after this value")
 	validate.Flags().StringVar(&validateJti, "jti", "", "Fails if JWT ID claim does not match")
 	validate.Flags().StringVarP(&validateAlgorithm, "algorithm", "a", "", "The algorithm to validate against. Fails on mismatch")
-	validate.Flags().StringVarP(&validateSecret, "secret", "s", "", "The secret (string, @file, or '-' to read from stdin). Fails if signature is invalid")
+	validate.Flags().StringVarP(&validateSecret, "secret", "s", "", "The secret or public key (string, @file, or '-' to read from stdin). Fails if signature is invalid")
 	root.AddCommand(validate)
 }
