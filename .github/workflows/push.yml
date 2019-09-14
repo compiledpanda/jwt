@@ -1,4 +1,4 @@
-name: Lint/Test/Build
+name: On Push
 on:
   push:
     branches:
@@ -8,8 +8,8 @@ on:
       '!*'
 
 jobs:
-  lint:
-    name: Lint
+  push:
+    name: Lint/Test/Build
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
@@ -21,30 +21,12 @@ jobs:
       - name: Lint
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin # See https://github.com/actions/setup-go/issues/14
-          go get -u golang.org/x/lint/golint 
+          go get -u golang.org/x/lint/golint
+          echo "Linting"
           golint ./...
-          [ ! -z "$(gofmt -l .)" ] && exit 1
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.13
-      - name: Check out code
-        uses: actions/checkout@v1
+          echo "Checking Formatting"
+          [ ! -z "$(gofmt -l .)" ] && echo "fmt error" && gofmt -l . && exit 1 || echo "PASSED"
       - name: Test
         run: go test ./...
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.13
-      - name: Check out code
-        uses: actions/checkout@v1
       - name: Build
         run: go build
