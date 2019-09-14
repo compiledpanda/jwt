@@ -1,4 +1,4 @@
-name: Lint/Test/Build
+name: On Push
 on:
   push:
     branches:
