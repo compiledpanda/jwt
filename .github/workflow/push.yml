@@ -1,0 +1,50 @@
+name: Lint/Test/Build
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+    tags:
+      '!*'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+      - name: Check out code
+        uses: actions/checkout@v1
+      - name: Lint
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin # See https://github.com/actions/setup-go/issues/14
+          go get -u golang.org/x/lint/golint 
+          golint ./...
+          [ ! -z "$(gofmt -l .)" ] && exit 1
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+      - name: Check out code
+        uses: actions/checkout@v1
+      - name: Test
+        run: go test ./...
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+      - name: Check out code
+        uses: actions/checkout@v1
+      - name: Build
+        run: go build
