@@ -1,0 +1,19 @@
+name: On Release
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v1
+    - name: Release
+      uses: docker://goreleaser/goreleaser@v0.118.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        args: release
+      if: success()
