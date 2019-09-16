@@ -92,12 +92,10 @@ var encode = &cobra.Command{
 				} else {
 					value = []byte(parts[1])
 				}
-				fmt.Println(string(value))
 				var obj interface{}
 				err := json.Unmarshal(value, &obj)
 				// If we can't parse as json, set as string
 				if err != nil {
-					fmt.Println(string(value))
 					options.Payload[parts[0]] = string(value)
 				} else {
 					options.Payload[parts[0]] = obj
