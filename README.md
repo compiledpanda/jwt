@@ -13,6 +13,18 @@ $> jwt validate eyJh...sw5c -a RS512 --iss Me -s @/path/to/public/key
 VALID
 ```
 
+## Install
+#### Binary Downloads
+You can download the [latest release](https://github.com/compiledpanda/jwt/releases) for your OS and place the binary in your path. `jwt` is a standalone binary and requires no external dependencies.
+
+#### Homebrew
+On mac, you can install via homebrew.
+```
+$> brew tap compiledpanda/jwt
+$> brew install jwt
+$> jwt
+```
+
 ## Docs
 
 ### Encode
