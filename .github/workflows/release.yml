@@ -11,7 +11,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v1
     - name: Release
-      uses: docker://goreleaser/goreleaser@v0.118.0
+      uses: docker://goreleaser/goreleaser:v0.118.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
