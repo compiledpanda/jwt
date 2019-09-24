@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/gbrlsnchs/jwt/v3"
-	"github.com/gliderlabs/ssh"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/ssh"
 )
 
 // ValidateOptions specifies options for encoding
