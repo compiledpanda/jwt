@@ -24,6 +24,7 @@ func TestRoot(t *testing.T) {
 		{args: []string{"encode", "-a", "RS256", "-s", "@./test/rsa_pkcs1_private.der"}},
 		{args: []string{"encode", "-a", "RS256", "-s", "@./test/rsa_pkcs8_private.pem"}},
 		{args: []string{"encode", "-a", "RS256", "-s", "@./test/rsa_pkcs8_private.der"}},
+		{args: []string{"encode", "-a", "RS256", "-s", "@./test/rsa_openssh_private.pem"}},
 		{args: []string{"encode", "-a", "RS384", "-s", "@./test/rsa_pkcs1_private.pem"}},
 		{args: []string{"encode", "-a", "RS512", "-s", "@./test/rsa_pkcs1_private.pem"}},
 		{args: []string{"encode", "-a", "PS256", "-s", "@./test/rsa_pkcs1_private.pem"}},

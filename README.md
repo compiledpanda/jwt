@@ -94,7 +94,5 @@ The following formats are supported:
 * ECDSA Private Keys
     * EC in PEM or DER format (`-----BEGIN EC PRIVATE KEY-----`)
     * PKCS8 in PEM or DER format (`-----BEGIN PRIVATE KEY-----`)
-    * OPENSSH in PEM format (`-----BEGIN OPENSSH PRIVATE KEY-----`)
 * ECDSA Public Keys
     * x509 in PEM or DER format (`-----BEGIN PUBLIC KEY-----`)
-    * OPENSSH authorized key format (`ecdsa-sha2-nistp521 ...`)

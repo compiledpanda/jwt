@@ -7,6 +7,7 @@ import (
 
 	"github.com/gbrlsnchs/jwt/v3"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/ssh"
 )
 
 // Algorithms contains the list of accepted algorithms
@@ -132,6 +133,16 @@ func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {
 	// Try PKCS1
 	pk, err := x509.ParsePKCS1PrivateKey(bytes)
 	if err == nil {
+		return pk, nil
+	}
+
+	// Try OPENSSH
+	sk, err := ssh.ParseRawPrivateKey([]byte(key))
+	if err == nil {
+		pk, ok := sk.(*rsa.PrivateKey)
+		if !ok {
+			return nil, errors.New("OPENSSH contained a non-RSA key")
+		}
 		return pk, nil
 	}
 
