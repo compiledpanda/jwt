@@ -84,13 +84,17 @@ Validate the jwt (string, `@file`, or `-` to read from stdin). Will return an er
 The following formats are supported:
 
 * RSA Private Keys
-    * PKCS1 in PEM or DER format
-    * PKCS8 in PEM or DER format
+    * PKCS1 in PEM or DER format (`-----BEGIN RSA PRIVATE KEY-----`)
+    * PKCS8 in PEM or DER format (`-----BEGIN PRIVATE KEY-----`)
+    * OPENSSH in PEM format (`-----BEGIN OPENSSH PRIVATE KEY-----`)
 * RSA Public Keys
-    * PKCS1 in PEM or DER format
-    * x509 in PEM or DER format
+    * PKCS1 in PEM or DER format (`-----BEGIN RSA PUBLIC KEY-----`)
+    * x509 in PEM or DER format (`-----BEGIN PUBLIC KEY-----`)
+    * OPENSSH authorized key format (`ssh-rsa ...`)
 * ECDSA Private Keys
-    * EC in PEM or DER format
-    * PKCS8 in PEM or DER format
+    * EC in PEM or DER format (`-----BEGIN EC PRIVATE KEY-----`)
+    * PKCS8 in PEM or DER format (`-----BEGIN PRIVATE KEY-----`)
+    * OPENSSH in PEM format (`-----BEGIN OPENSSH PRIVATE KEY-----`)
 * ECDSA Public Keys
-    * x509 in PEM or DER format
+    * x509 in PEM or DER format (`-----BEGIN PUBLIC KEY-----`)
+    * OPENSSH authorized key format (`ecdsa-sha2-nistp521 ...`)
