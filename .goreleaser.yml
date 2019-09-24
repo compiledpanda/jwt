@@ -10,7 +10,21 @@ builds:
     - darwin
     - linux
   goarch:
+    - "386"
     - amd64
+brews:
+  - name: jwt
+    github:
+      owner: compiledpanda
+      name: homebrew-jwt
+    commit_author:
+      name: John Clark
+      email: socrates37@gmail.com
+    folder: Formula
+    description: CLI to encode, decode, and validate JWTs
+    homepage: https://github.com/compiledpanda/jwt
+    custom_block: |
+      head "https://github.com/compiledpanda/jwt.git"
 archives:
 - replacements:
     darwin: Darwin
