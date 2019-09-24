@@ -43,3 +43,6 @@ mv ./rsa_openssh_private.pub ./rsa_openssh_public.pub
 ssh-keygen -t ecdsa -b 521 -N "" -C "" -f ./ecdsa_openssh_private
 mv ./ecdsa_openssh_private ./ecdsa_openssh_private.pem
 mv ./ecdsa_openssh_private.pub ./ecdsa_openssh_public.pub
+
+# openssh jwt
+go run ../jwt.go encode -a RS256 -s @./rsa_openssh_private.pem > rsa_openssh_rs256.jwt

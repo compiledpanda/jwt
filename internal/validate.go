@@ -1,12 +1,15 @@
 package internal
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/rsa"
 	"crypto/x509"
+	"reflect"
 	"time"
 
 	"github.com/gbrlsnchs/jwt/v3"
+	"github.com/gliderlabs/ssh"
 	"github.com/pkg/errors"
 )
 
@@ -130,16 +133,27 @@ func Validate(token []byte, opt ValidateOptions) (string, error) {
 }
 
 func parseRSAPublicKey(key []byte) (*rsa.PublicKey, error) {
-	bytes := dePem(key)
+	// ssh-rsa
+	if bytes.HasPrefix(key, []byte("ssh-rsa")) {
+		k, _, _, _, err := ssh.ParseAuthorizedKey(key)
+		if err != nil {
+			return nil, err
+		}
+		// https://stackoverflow.com/a/31594178
+		key := reflect.ValueOf(k).Convert(reflect.TypeOf(&rsa.PublicKey{})).Interface().(*rsa.PublicKey)
+		return key, nil
+	}
+
+	b := dePem(key)
 
 	// Try PKCS1
-	pk, err := x509.ParsePKCS1PublicKey(bytes)
+	pk, err := x509.ParsePKCS1PublicKey(b)
 	if err == nil {
 		return pk, nil
 	}
 
 	// Try PKIX -> RSA
-	k, err := x509.ParsePKIXPublicKey(bytes)
+	k, err := x509.ParsePKIXPublicKey(b)
 	if err == nil {
 		pk, ok := k.(*rsa.PublicKey)
 		if !ok {
@@ -152,10 +166,10 @@ func parseRSAPublicKey(key []byte) (*rsa.PublicKey, error) {
 }
 
 func parseECDSAPublicKey(key []byte) (*ecdsa.PublicKey, error) {
-	bytes := dePem(key)
+	b := dePem(key)
 
 	// Try PKIX -> ECDSA
-	k, err := x509.ParsePKIXPublicKey(bytes)
+	k, err := x509.ParsePKIXPublicKey(b)
 	if err == nil {
 		pk, ok := k.(*ecdsa.PublicKey)
 		if !ok {

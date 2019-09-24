@@ -2,6 +2,7 @@ package main
 
 import (
 	"os/exec"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -48,6 +49,7 @@ func TestRoot(t *testing.T) {
 		{args: []string{"validate", "@./test/rsa_rs256.jwt", "-a", "RS256", "-s", "@./test/rsa_pkcs1_public.der"}},
 		{args: []string{"validate", "@./test/rsa_rs256.jwt", "-a", "RS256", "-s", "@./test/rsa_x509_public.pem"}},
 		{args: []string{"validate", "@./test/rsa_rs256.jwt", "-a", "RS256", "-s", "@./test/rsa_x509_public.der"}},
+		{args: []string{"validate", "@./test/rsa_openssh_rs256.jwt", "-a", "RS256", "-s", "@./test/rsa_openssh_public.pub"}},
 		{args: []string{"validate", "@./test/rsa_rs384.jwt", "-a", "RS384", "-s", "@./test/rsa_pkcs1_public.pem"}},
 		{args: []string{"validate", "@./test/rsa_rs512.jwt", "-a", "RS512", "-s", "@./test/rsa_pkcs1_public.pem"}},
 		{args: []string{"validate", "@./test/rsa_ps256.jwt", "-a", "PS256", "-s", "@./test/rsa_pkcs1_public.pem"}},
@@ -65,8 +67,8 @@ func TestRoot(t *testing.T) {
 		output, err := cmd.Output()
 
 		// Should have some output and not errored
-		assert.Nil(t, err)
-		assert.NotEmpty(t, output)
+		assert.NoError(t, err, strings.Join(tt.args, " "))
+		assert.NotEmpty(t, output, string(output))
 	}
 
 }

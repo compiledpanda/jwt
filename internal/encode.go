@@ -118,10 +118,10 @@ func Encode(opt EncodeOptions) (str string, err error) {
 }
 
 func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {
-	bytes := dePem(key)
+	b := dePem(key)
 
 	// Try PKCS8 -> RSA
-	k, err := x509.ParsePKCS8PrivateKey(bytes)
+	k, err := x509.ParsePKCS8PrivateKey(b)
 	if err == nil {
 		pk, ok := k.(*rsa.PrivateKey)
 		if !ok {
@@ -131,7 +131,7 @@ func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {
 	}
 
 	// Try PKCS1
-	pk, err := x509.ParsePKCS1PrivateKey(bytes)
+	pk, err := x509.ParsePKCS1PrivateKey(b)
 	if err == nil {
 		return pk, nil
 	}
@@ -150,16 +150,16 @@ func parseRSAPrivateKey(key []byte) (*rsa.PrivateKey, error) {
 }
 
 func parseECDSAPrivateKey(key []byte) (*ecdsa.PrivateKey, error) {
-	bytes := dePem(key)
+	b := dePem(key)
 
 	// Try ECPrivateKey
-	pk, err := x509.ParseECPrivateKey(bytes)
+	pk, err := x509.ParseECPrivateKey(b)
 	if err == nil {
 		return pk, nil
 	}
 
 	// Try PKCS8 -> ECDSA
-	k, err := x509.ParsePKCS8PrivateKey(bytes)
+	k, err := x509.ParsePKCS8PrivateKey(b)
 	if err == nil {
 		pk, ok := k.(*ecdsa.PrivateKey)
 		if !ok {
